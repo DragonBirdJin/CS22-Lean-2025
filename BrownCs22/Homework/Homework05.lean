@@ -66,7 +66,21 @@ is` b + a^2 + 17*a + 9`.
 
 @[autograded 4]
 theorem problem_1 : ∀ n : ℕ, 3 ∣ n^3 + 2*n := by
-  sorry
+  basic_induction
+  dsimp dvd
+  existsi 0
+  numbers
+  dsimp dvd
+  fix n
+  assume h1
+  calc
+      (n+1)^3 + 2*(n+1) = (n+1)*((n+1)^2+2) := by ring
+      _ = (n+1) * (n^2+2*n+1+2) := by ring
+      _ = (n+1) * (n^2+2*n+3) := by ring
+      _ = n^3+2*n^2+3*n+n^2+2*n+3 := by ring
+      _ = n^3 + 3*n^2 + 5*n + 3 := by ring
+      _ = (n^3 + 2*n) +3*n^2 +3*n + 3 := by ring
+
   done
 
 
@@ -82,5 +96,16 @@ Now we'll prove that every number is either even or odd, phrased in terms of
 
 @[autograded 4]
 theorem problem_2 : ∀ n : ℕ, 2 ∣ n ∨ 2 ∣ n + 1 := by
-  sorry
+  basic_induction
+  dsimp dvd
+  numbers
+  left
+  existsi 0
+  numbers
+  dsimp dvd
+  fix n
+  assume h1
+  right
+  eliminate h1 with h2 h3
+
   done
